@@ -1,0 +1,25 @@
+You are estimating metric distance from a flat image for a benchmark.
+
+Analyze the image and return only valid JSON. Do not include markdown or explanations outside JSON.
+
+Estimate the real-world distance between two visible pens in the image.
+
+The target objects are pen 1 and pen 2. If the pens are explicitly marked with labels, use those labels. If labels are not visible, use the two main pens in the image.
+
+Schema:
+{
+  "target_pair": "pen 1 to pen 2",
+  "estimated_distance_cm": number,
+  "distance_confidence": "low|medium|high",
+  "reference_used": "short description of visual cue or reference",
+  "reason": "one short sentence"
+}
+
+Rules:
+- Return one numeric estimate in centimeters for "estimated_distance_cm".
+- Estimate the shortest distance between the two pens, not the distance between their centers, unless the image clearly marks specific A/B points.
+- Use the A4 paper (21.0 cm x 29.7 cm) visible in the image as your primary reference for scale.
+- If A4 paper is not visible, fall back to other cues such as pen length, grid squares, ruler markings, floor/table markings, or other known references.
+- Do not answer with "unknown", "unclear", null, or a range.
+- Do not estimate distances to objects other than the two pens.
+- Keep the reason under 30 words.

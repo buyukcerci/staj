@@ -1,0 +1,28 @@
+You are evaluating a construction safety image for a benchmark.
+
+Analyze this image and return only valid JSON. Do not include markdown or explanations outside JSON.
+
+Schema:
+{
+  "worker_count": number,
+  "forklift_count": number,
+  "visible_ppe_violations": [
+    {
+      "type": "no_helmet|other",
+      "target": "short description",
+      "confidence": "low|medium|high"
+    }
+  ],
+  "forklift_person_risk": "yes|no",
+  "overall_risk": "safe|warning",
+  "reason": "one short sentence"
+}
+
+Rules:
+- Use "warning" for visible helmet violations or forklift-person proximity risk.
+- Do not answer with "unclear", "unknown", or "unsure"; choose the closest supported label from the schema.
+- Treat any worker within about 2 meters of a forklift as forklift-person proximity risk.
+- Use "safe" only when no visible warning sign is present.
+- Do not invent objects that are not visible.
+- Do not claim exact distances.
+- Keep the reason under 30 words.
