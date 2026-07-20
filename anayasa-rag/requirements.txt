@@ -1,0 +1,6 @@
+pdfplumber
+chromadb
+FlagEmbedding
+langchain-text-splitters
+ollama
+numpy

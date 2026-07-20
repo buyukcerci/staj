@@ -1,5 +1,5 @@
-from create_collection_from_document import create_collection_from_document
-from bge_embedding_function import BGEEmbeddingFunction
+from src.create_collection_from_document import create_collection_from_document
+from src.bge_embedding_function import BGEEmbeddingFunction
 import chromadb
 from ollama import chat
 
