@@ -1,6 +1,6 @@
-from text_extracter import extract_text_from_pdf
+from .text_extracter import extract_text_from_pdf
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from bge_embedding_function import BGEEmbeddingFunction
+from .bge_embedding_function import BGEEmbeddingFunction
 import chromadb
 import logging
 
