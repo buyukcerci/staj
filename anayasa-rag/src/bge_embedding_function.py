@@ -14,9 +14,12 @@ logging.getLogger("transformers").setLevel(logging.ERROR)
 from chromadb import Documents, EmbeddingFunction, Embeddings
 from FlagEmbedding import FlagAutoModel
 
+from config import EMBEDDING_MODEL
+
+
 class BGEEmbeddingFunction(EmbeddingFunction):
     def __init__(self):
-        self.model = FlagAutoModel.from_finetuned('BAAI/bge-m3')
+        self.model = FlagAutoModel.from_finetuned(EMBEDDING_MODEL)
 
     def __call__(self, input: Documents) -> Embeddings:
         result = self.model.encode(input)

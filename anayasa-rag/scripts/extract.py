@@ -2,7 +2,7 @@ import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
-from src.text_extracter import extract_text_from_pdf
+from src.text_extractor import extract_text_from_pdf
 
 if len(sys.argv) < 2:
     print(f"Usage: python {sys.argv[0]} <pdf_path>")

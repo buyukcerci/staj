@@ -1,0 +1,53 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: anayasa-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    devices:
+      - /dev/kfd
+      - /dev/dri
+    restart: unless-stopped
+
+  rag-server:
+    build: .
+    container_name: anayasa-rag-server
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./chroma_db:/app/chroma_db
+      - ./anayasa.pdf:/app/anayasa.pdf:ro
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-qwen3:14b}
+      - SERVER_HOST=0.0.0.0
+      - SERVER_PORT=8000
+    depends_on:
+      - ollama
+    restart: unless-stopped
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    ports:
+      - "3000:8080"
+    volumes:
+      - open-webui:/app/backend/data
+    environment:
+      - OLLAMA_BASE_URLS=http://ollama:11434
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - OPENAI_API_BASE_URLS=http://rag-server:8000/v1
+      - OPENAI_API_KEYS=anayasa-rag-key
+      - OPENAI_API_CONFIGS={"0":{"model_ids":["qwen3:14b"],"auth_type":"bearer"}}
+      - WEBUI_SECRET_KEY=${WEBUI_SECRET_KEY:-change-this-to-a-random-string}
+      - ENABLE_SIGNUP=True
+    depends_on:
+      - rag-server
+      - ollama
+    restart: unless-stopped
+
+volumes:
+  open-webui: {}
+  ollama: {}
